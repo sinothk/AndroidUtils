@@ -3,6 +3,8 @@ package com.sinothk.android.utils;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +17,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -22,11 +25,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.sinothk.android.utils.bean.AppInfo;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.sinothk.android.utils.BuildConfig.DEBUG;
 
 /**
  * Company 汉合瑞信.
@@ -34,24 +37,16 @@ import static com.sinothk.android.utils.BuildConfig.DEBUG;
  */
 public class AppUtil {
 
-    private static Context mContext;
+    private Context mContext;
 
-    public static void init(Context context) {
+    AppUtil(Context context) {
         mContext = context;
     }
 
     /**
      * 获取应用程序版本名称信息
      */
-    public static String getAppVersionName() {
-
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return null;
-        }
-
+    public String getAppVersionName() {
         try {
             PackageManager pm = mContext.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), 0);
@@ -65,14 +60,7 @@ public class AppUtil {
     /**
      * 获取app版本号
      */
-    public static int getAppVersionCode() {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return 0;
-        }
-
+    public int getAppVersionCode() {
         try {
             PackageManager pm = mContext.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), 0);
@@ -86,14 +74,7 @@ public class AppUtil {
     /**
      * 强制隐藏输入法键盘
      */
-    public static void hideInput(View view) {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return;
-        }
-
+    public void hideInput(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
@@ -102,13 +83,6 @@ public class AppUtil {
      * 切换软键盘的状态 如当前为收起变为弹出,若当前为弹出变为收起
      */
     private void toggleInput() {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return;
-        }
-
         InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
@@ -118,14 +92,7 @@ public class AppUtil {
      *
      * @return
      */
-    public static boolean isDebug() {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return false;
-        }
-
+    public boolean isDebug() {
         try {
             ApplicationInfo info = mContext.getApplicationInfo();
             return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
@@ -140,7 +107,7 @@ public class AppUtil {
      *
      * @param filePath 文件路径
      */
-    public static void installApp(String filePath) {
+    public void installApp(String filePath) {
         installApp(new File(filePath));
     }
 
@@ -150,14 +117,7 @@ public class AppUtil {
      *
      * @param file 文件
      */
-    public static void installApp(File file) {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return;
-        }
-
+    public void installApp(File file) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -170,130 +130,10 @@ public class AppUtil {
      * @param packageName 包名
      */
     public void uninstallApp(String packageName) {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return;
-        }
-
         Intent intent = new Intent(Intent.ACTION_DELETE);
         intent.setData(Uri.parse("package:" + packageName));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
-    }
-
-    /**
-     * 封装App信息的Bean类
-     */
-    public static class AppInfo {
-
-        private String name;
-        private Drawable icon;
-        private String packageName;
-        private String packagePath;
-        private String versionName;
-        private int versionCode;
-        private boolean isSD;
-        private boolean isUser;
-
-        public Drawable getIcon() {
-            return icon;
-        }
-
-        public void setIcon(Drawable icon) {
-            this.icon = icon;
-        }
-
-        public boolean isSD() {
-            return isSD;
-        }
-
-        public void setSD(boolean SD) {
-            isSD = SD;
-        }
-
-        public boolean isUser() {
-            return isUser;
-        }
-
-        public void setUser(boolean user) {
-            isUser = user;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPackageName() {
-            return packageName;
-        }
-
-        public void setPackageName(String packagName) {
-            this.packageName = packagName;
-        }
-
-        public String getPackagePath() {
-            return packagePath;
-        }
-
-        public void setPackagePath(String packagePath) {
-            this.packagePath = packagePath;
-        }
-
-        public int getVersionCode() {
-            return versionCode;
-        }
-
-        public void setVersionCode(int versionCode) {
-            this.versionCode = versionCode;
-        }
-
-        public String getVersionName() {
-            return versionName;
-        }
-
-        public void setVersionName(String versionName) {
-            this.versionName = versionName;
-        }
-
-        /**
-         * @param name        名称
-         * @param icon        图标
-         * @param packageName 包名
-         * @param packagePath 包路径
-         * @param versionName 版本号
-         * @param versionCode 版本Code
-         * @param isSD        是否安装在SD卡
-         * @param isUser      是否是用户程序
-         */
-        public AppInfo(String name, Drawable icon, String packageName, String packagePath,
-                       String versionName, int versionCode, boolean isSD, boolean isUser) {
-            this.setName(name);
-            this.setIcon(icon);
-            this.setPackageName(packageName);
-            this.setPackagePath(packagePath);
-            this.setVersionName(versionName);
-            this.setVersionCode(versionCode);
-            this.setSD(isSD);
-            this.setUser(isUser);
-        }
-
-//        @Override
-//        public String toString() {
-//            return getName() + "\n"
-//                    + getIcon() + "\n"
-//                    + getPackageName() + "\n"
-//                    + getPackagePath() + "\n"
-//                    + getVersionName() + "\n"
-//                    + getVersionCode() + "\n"
-//                    + isSD() + "\n"
-//                    + isUser() + "\n";
-//        }
     }
 
     /**
@@ -302,14 +142,7 @@ public class AppUtil {
      *
      * @return 当前应用的AppInfo
      */
-    public static AppUtil.AppInfo getAppInfo() {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return null;
-        }
-
+    public AppInfo getAppInfo() {
         PackageManager pm = mContext.getPackageManager();
         PackageInfo pi = null;
         try {
@@ -327,7 +160,7 @@ public class AppUtil {
      * @param pi 包的信息
      * @return AppInfo类
      */
-    private static AppUtil.AppInfo getBean(PackageManager pm, PackageInfo pi) {
+    private AppInfo getBean(PackageManager pm, PackageInfo pi) {
         ApplicationInfo ai = pi.applicationInfo;
         String name = ai.loadLabel(pm).toString();
         Drawable icon = ai.loadIcon(pm);
@@ -337,7 +170,7 @@ public class AppUtil {
         int versionCode = pi.versionCode;
         boolean isSD = (ApplicationInfo.FLAG_SYSTEM & ai.flags) != ApplicationInfo.FLAG_SYSTEM;
         boolean isUser = (ApplicationInfo.FLAG_SYSTEM & ai.flags) != ApplicationInfo.FLAG_SYSTEM;
-        return new AppUtil.AppInfo(name, icon, packageName, packagePath, versionName, versionCode, isSD, isUser);
+        return new AppInfo(name, icon, packageName, packagePath, versionName, versionCode, isSD, isUser);
     }
 
     /**
@@ -347,14 +180,7 @@ public class AppUtil {
      *
      * @return 所有已安装的AppInfo列表
      */
-    public static List<AppInfo> getAllAppsInfo() {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return null;
-        }
-
+    public List<AppInfo> getAllAppsInfo() {
         List<AppInfo> list = new ArrayList<>();
         PackageManager pm = mContext.getPackageManager();
         // 获取系统中安装的所有软件信息
@@ -373,14 +199,7 @@ public class AppUtil {
      * @param packageName 包名
      * @return 意图
      */
-    private static Intent getIntentByPackageName(String packageName) {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return null;
-        }
-
+    private Intent getIntentByPackageName(String packageName) {
         return mContext.getPackageManager().getLaunchIntentForPackage(packageName);
     }
 
@@ -390,7 +209,7 @@ public class AppUtil {
      * @param packageName 包名
      * @return {@code true}: 已安装<br>{@code false}: 未安装
      */
-    public static boolean isInstallApp(String packageName) {
+    public boolean isInstallApp(String packageName) {
         return getIntentByPackageName(packageName) != null;
     }
 
@@ -400,14 +219,7 @@ public class AppUtil {
      * @param packageName 包名
      * @return {@code true}: 打开成功<br>{@code false}: 打开失败
      */
-    public static boolean openAppByPackageName(String packageName) {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return false;
-        }
-
+    public boolean openAppByPackageName(String packageName) {
         Intent intent = getIntentByPackageName(packageName);
         if (intent != null) {
             mContext.startActivity(intent);
@@ -421,14 +233,7 @@ public class AppUtil {
      *
      * @param packageName 包名
      */
-    public static void openAppInfo(String packageName) {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return;
-        }
-
+    public void openAppInfo(String packageName) {
         Intent intent = new Intent();
         intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
         intent.setData(Uri.parse("package:" + packageName));
@@ -440,14 +245,7 @@ public class AppUtil {
      *
      * @param info 分享信息
      */
-    public static void shareAppInfo(String info) {
-        if (mContext == null) {
-            if (DEBUG) {
-                throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context)");
-            }
-            return;
-        }
-
+    public void shareAppInfo(String info) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, info);
@@ -461,9 +259,7 @@ public class AppUtil {
      *
      * @return {@code true}: 后台<br>{@code false}: 前台
      */
-    public static boolean isAppBackground() {
-        if (mContext == null) return false;
-
+    public boolean isAppBackground() {
         ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         @SuppressWarnings("deprecation")
         List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
@@ -482,7 +278,7 @@ public class AppUtil {
      * @param context 上下文
      * @return 屏幕宽px
      */
-    public static int getScreenWidth(Context context) {
+    public int getScreenWidth(Context context) {
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();// 创建了一张白纸
         windowManager.getDefaultDisplay().getMetrics(outMetrics);// 给白纸设置宽高
@@ -495,7 +291,7 @@ public class AppUtil {
      * @param context 上下文
      * @return 屏幕高px
      */
-    public static int getScreenHeight(Context context) {
+    public int getScreenHeight(Context context) {
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();// 创建了一张白纸
         windowManager.getDefaultDisplay().getMetrics(outMetrics);// 给白纸设置宽高
@@ -511,7 +307,7 @@ public class AppUtil {
      *
      * @param activity activity
      */
-    public static void setTransparentStatusBar(Activity activity) {
+    public void setTransparentStatusBar(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -530,7 +326,7 @@ public class AppUtil {
      *
      * @param activity activity
      */
-    public static void hideStatusBar(Activity activity) {
+    public void hideStatusBar(Activity activity) {
         activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -542,7 +338,7 @@ public class AppUtil {
      * @param context 上下文
      * @return 状态栏高度
      */
-    public static int getStatusBarHeight(Context context) {
+    public int getStatusBarHeight(Context context) {
         int result = 0;
         int resourceId = context.getResources()
                 .getIdentifier("status_bar_height", "dimen", "android");
@@ -558,7 +354,7 @@ public class AppUtil {
      * @param activity activity
      * @return {@code true}: 存在<br>{@code false}: 不存在
      */
-    public static boolean isStatusBarExists(Activity activity) {
+    public boolean isStatusBarExists(Activity activity) {
         WindowManager.LayoutParams params = activity.getWindow().getAttributes();
         return (params.flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != WindowManager.LayoutParams.FLAG_FULLSCREEN;
     }
@@ -569,7 +365,7 @@ public class AppUtil {
      * @param activity activity
      * @return ActionBar高度
      */
-    public static int getActionBarHeight(Activity activity) {
+    public int getActionBarHeight(Activity activity) {
         TypedValue tv = new TypedValue();
         if (activity.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             return TypedValue.complexToDimensionPixelSize(tv.data, activity.getResources().getDisplayMetrics());
@@ -584,7 +380,7 @@ public class AppUtil {
 //     * @param context        上下文
 //     * @param isSettingPanel {@code true}: 打开设置<br>{@code false}: 打开通知
 //     */
-//    public static void showNotificationBar(Context context, boolean isSettingPanel) {
+//    public void showNotificationBar(Context context, boolean isSettingPanel) {
 //        String methodName = (Build.VERSION.SDK_INT <= 16) ? "expand"
 //                : (isSettingPanel ? "expandSettingsPanel" : "expandNotificationsPanel");
 //        invokePanels(context, methodName);
@@ -596,7 +392,7 @@ public class AppUtil {
 //     *
 //     * @param context 上下文
 //     */
-//    public static void hideNotificationBar(Context context) {
+//    public void hideNotificationBar(Context context) {
 //        String methodName = (Build.VERSION.SDK_INT <= 16) ? "collapse" : "collapsePanels";
 //        invokePanels(context, methodName);
 //    }
@@ -606,7 +402,7 @@ public class AppUtil {
 //     * @param context    上下文
 //     * @param methodName 方法名
 //     */
-//    private static void invokePanels(Context context, String methodName) {
+//    private void invokePanels(Context context, String methodName) {
 //        try {
 //            Object service = context.getSystemService("statusbar");
 //            Class<?> statusBarManager = Class.forName("android.app.StatusBarManager");
@@ -627,7 +423,7 @@ public class AppUtil {
      *
      * @param activity activity
      */
-    public static void setLandscape(Activity activity) {
+    public void setLandscape(Activity activity) {
         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
@@ -637,7 +433,7 @@ public class AppUtil {
      * @param activity activity
      * @return Bitmap
      */
-    public static Bitmap captureWithStatusBar(Activity activity) {
+    public Bitmap captureWithStatusBar(Activity activity) {
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
@@ -656,7 +452,7 @@ public class AppUtil {
      * @param activity activity
      * @return Bitmap
      */
-    public static Bitmap captureWithoutStatusBar(Activity activity) {
+    public Bitmap captureWithoutStatusBar(Activity activity) {
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
@@ -675,27 +471,27 @@ public class AppUtil {
      * @param context 上下文
      * @return {@code true}: 是<br>{@code false}: 否
      */
-    public static boolean isScreenLock(Context context) {
+    public boolean isScreenLock(Context context) {
         KeyguardManager km = (KeyguardManager) context
                 .getSystemService(Context.KEYGUARD_SERVICE);
         return km.inKeyguardRestrictedInputMode();
     }
 
-    public static int getScreenWidth1(Context context) {
+    public int getScreenWidth1(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
     }
 
-    public static int getScreenHeight1(Context context) {
+    public int getScreenHeight1(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.heightPixels;
     }
 
-    public static int getStatusHeight(Context context) {
+    public int getStatusHeight(Context context) {
         int statusHeight = -1;
         try {
             Class<?> clazz = Class.forName("com.android.internal.R$dimen");
@@ -711,7 +507,7 @@ public class AppUtil {
     /**
      * 获取当前屏幕截图，包含状态栏
      */
-    public static Bitmap snapShotWithStatusBar(Activity activity) {
+    public Bitmap snapShotWithStatusBar(Activity activity) {
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
@@ -727,7 +523,7 @@ public class AppUtil {
     /**
      * 获取当前屏幕截图，不包含状态栏 *
      */
-    public static Bitmap snapShotWithoutStatusBar(Activity activity) {
+    public Bitmap snapShotWithoutStatusBar(Activity activity) {
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
@@ -741,5 +537,68 @@ public class AppUtil {
         bp = Bitmap.createBitmap(bmp, 0, statusBarHeight, width, height - statusBarHeight);
         view.destroyDrawingCache();
         return bp;
+    }
+
+    /**
+     * 打开其他App
+     *
+     * @param mContext
+     * @param packName
+     */
+    public static String startOtherApp(Context mContext, String packName, Bundle bundle) {
+        PackageManager packageManager = mContext.getPackageManager();
+
+        PackageInfo packageInfo;
+        try {
+            packageInfo = packageManager.getPackageInfo(packName, 0);
+            if (packageInfo != null) {
+                Intent intent = packageManager.getLaunchIntentForPackage(packName);
+                if (bundle != null) {
+                    assert intent != null;
+                    intent.putExtras(bundle);
+                }
+                mContext.startActivity(intent);
+                return "";
+            } else {
+                return "没有安装";
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "没有安装";
+        }
+    }
+
+    /**
+     * 通过调用浏览器下载文件！
+     *
+     * @param mContext
+     * @param url
+     */
+    public static void downLoadByBrowser(Context mContext, String url) {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        // 走自己的服务器
+        intent.setData(Uri.parse(url));
+        mContext.startActivity(intent);
+    }
+
+    /**
+     * 复制内容到剪切板
+     *
+     * @param copyStr
+     * @return
+     */
+    public static boolean copyIntoBox(Context mContext, String copyStr) {
+        try {
+            //获取剪贴板管理器
+            ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+            // 创建普通字符型ClipData
+            ClipData mClipData = ClipData.newPlainText("Label", copyStr);
+            // 将ClipData内容放到系统剪贴板里。
+            cm.setPrimaryClip(mClipData);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

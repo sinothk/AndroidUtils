@@ -243,4 +243,50 @@ public class AndroidUtils {
         }
         return preferUtil;
     }
+
+    /**
+     * 图片操作
+     */
+    private static ImageUtil imageUtil;
+
+    public static ImageUtil image() {
+        if (imageUtil == null) {
+            synchronized (AndroidUtils.class) {
+                imageUtil = new ImageUtil();
+            }
+        }
+        return imageUtil;
+    }
+
+    /**
+     * 时间工具类
+     */
+    private static DateUtil dateUtil;
+
+    public static DateUtil date() {
+        if (dateUtil == null) {
+            synchronized (AndroidUtils.class) {
+                dateUtil = new DateUtil();
+            }
+        }
+        return dateUtil;
+    }
+
+    /**
+     * App相关
+     */
+    @SuppressLint("StaticFieldLeak")
+    private static AppUtil appUtil;
+
+    public static AppUtil app() {
+        if (appUtil == null) {
+            synchronized (AndroidUtils.class) {
+                if (context == null) {
+                    contextNullError();
+                }
+                appUtil = new AppUtil(context);
+            }
+        }
+        return appUtil;
+    }
 }

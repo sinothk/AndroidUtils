@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -20,9 +21,9 @@ import java.util.Random;
  * </pre>
  */
 public class DateUtil {
-    static SimpleDateFormat sdf;
+    SimpleDateFormat sdf;
 
-//    public static void main(String[] args) {
+//    public void main(String[] args) {
 //
 //        System.out.println("通过日期对象获得日期字符串2:");
 //        String dateStr1 = DateUtil.getDateStrByDate(new Date(), "yyyy-MM-dd HH:mm:ss"); // yyyy年MM月dd日
@@ -34,7 +35,7 @@ public class DateUtil {
 //        System.out.println("t = " + date.toString());
 //    }
 
-    public static String getDateStrByDate(Date date) {
+    public String getDateStrByDate(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(date);
     }
@@ -46,7 +47,7 @@ public class DateUtil {
      * @param dateFormat 日期格式字符串,形如:"yyyy-MM-dd HH:mm:ss"
      * @return 返回日期字符串, 日期格式使用自定义的格式
      */
-    public static String getDateStrByDate(Date date, String dateFormat) {
+    public String getDateStrByDate(Date date, String dateFormat) {
 
         SimpleDateFormat format = new SimpleDateFormat(dateFormat);
         String str = format.format(date);
@@ -62,7 +63,7 @@ public class DateUtil {
      *                   "yyyy-MM-dd HH:mm:ss"
      * @return
      */
-    public static Date getDateByDateStr(String dateStr, String dateFormat) {
+    public Date getDateByDateStr(String dateStr, String dateFormat) {
 
         SimpleDateFormat format = new SimpleDateFormat(dateFormat);
         Date date = null;
@@ -81,7 +82,7 @@ public class DateUtil {
      * @param longDate
      * @return
      */
-    public static int getTwoDateInterval(Date shortDate, Date longDate) {
+    public int getTwoDateInterval(Date shortDate, Date longDate) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(shortDate);
         long time1 = cal.getTimeInMillis();
@@ -103,7 +104,7 @@ public class DateUtil {
      * @param days
      * @return
      */
-    public static Date getDateBeforeToday(int days) {
+    public Date getDateBeforeToday(int days) {
         Date nowtime = new Date();
 
         Calendar calendar = Calendar.getInstance();
@@ -113,10 +114,10 @@ public class DateUtil {
         return calendar.getTime();
     }
 
-    private static final long ONE_MINUTE = 60000L;
-    private static final long ONE_HOUR = 3600000L;
-    private static final long ONE_DAY = 86400000L;
-    private static final long ONE_WEEK = 604800000L;
+    private final long ONE_MINUTE = 60000L;
+    private final long ONE_HOUR = 3600000L;
+    private final long ONE_DAY = 86400000L;
+    private final long ONE_WEEK = 604800000L;
 
     /**
      * 通过日期算岁数
@@ -124,7 +125,7 @@ public class DateUtil {
      * @param birthday
      * @return
      */
-    public static int getAge(Date birthday) {
+    public int getAge(Date birthday) {
         if (birthday == null) {
             Random rand = new Random();
             int randNum = rand.nextInt(16) + 16;
@@ -141,7 +142,7 @@ public class DateUtil {
      * @param milliseconds 毫秒时间戳
      * @return unit时间戳
      */
-    private static long time2Unit(long milliseconds, TimeUnit unit) {
+    private long time2Unit(long milliseconds, TimeUnit unit) {
         switch (unit) {
             case MSEC:
                 return milliseconds / MSEC;
@@ -161,23 +162,23 @@ public class DateUtil {
     /**
      * 毫秒与毫秒的倍数
      */
-    private static final int MSEC = 1;
+    private final int MSEC = 1;
     /**
      * 秒与毫秒的倍数
      */
-    private static final int SEC = 1000;
+    private final int SEC = 1000;
     /**
      * 分与毫秒的倍数
      */
-    private static final int MIN = 60000;
+    private final int MIN = 60000;
     /**
      * 时与毫秒的倍数
      */
-    private static final int HOUR = 3600000;
+    private final int HOUR = 3600000;
     /**
      * 天与毫秒的倍数
      */
-    private static final int DAY = 86400000;
+    private final int DAY = 86400000;
 
     public enum TimeUnit {
         MSEC,
@@ -192,7 +193,7 @@ public class DateUtil {
      *
      * @return 毫秒时间戳
      */
-    public static long getTime() {
+    public long getTime() {
         return System.currentTimeMillis();
     }
 
@@ -202,7 +203,7 @@ public class DateUtil {
      *
      * @return Date类型时间
      */
-    public static Date getCurTimeDate() {
+    public Date getCurTimeDate() {
         return new Date();
     }
 
@@ -212,7 +213,7 @@ public class DateUtil {
      * @param year 年份
      * @return {@code true}: 闰年<br>{@code false}: 平年
      */
-    public static boolean isLeapYear(int year) {
+    public boolean isLeapYear(int year) {
         return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
     }
 
@@ -223,7 +224,7 @@ public class DateUtil {
      * @param day
      * @return
      */
-    public static Date getDateBefore(Date d, int day) {
+    public Date getDateBefore(Date d, int day) {
         Calendar now = Calendar.getInstance();
         now.setTime(d);
         now.set(Calendar.DATE, now.get(Calendar.DATE) - day);
@@ -238,7 +239,7 @@ public class DateUtil {
      * @param day
      * @return
      */
-    public static Date getDateAfter(Date d, int day) {
+    public Date getDateAfter(Date d, int day) {
         Calendar now = Calendar.getInstance();
         now.setTime(d);
         now.set(Calendar.DATE, now.get(Calendar.DATE) + day);
@@ -303,11 +304,11 @@ public class DateUtil {
      * =========================================================================================
      */
 
-    public static String friendlyAfterTime(Date time) {
+    public String friendlyAfterTime(Date time) {
         return friendlyAfterTime(time.getTime());
     }
 
-    public static String friendlyAfterTime(long time) {
+    public String friendlyAfterTime(long time) {
         //获取time距离当前的秒数
         int ct = (int) ((System.currentTimeMillis() - time) / 1000);
 
@@ -338,7 +339,7 @@ public class DateUtil {
      * @param date
      * @return
      */
-    public static String getFriendlyDate(Date date) {
+    public String getFriendlyDate(Date date) {
         if (date == null) date = new Date();
 
         Date now = new Date();
@@ -352,19 +353,19 @@ public class DateUtil {
 
         if (dateTime < ys) {
             // 不是同一年
-            return new SimpleDateFormat("MM月dd日").format(date);
+            return new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(date);
         } else {
             if ((ds - yd) == (48 * 60 * 60 * 1000)) {
-                return new SimpleDateFormat("前天 HH:mm").format(date);
+                return new SimpleDateFormat("前天 HH:mm", Locale.getDefault()).format(date);
             }
 
             if ((ds - yd) == (24 * 60 * 60 * 1000)) {
-                return new SimpleDateFormat("昨天 HH:mm").format(date);
+                return new SimpleDateFormat("昨天 HH:mm", Locale.getDefault()).format(date);
             }
 
             if (dateTime < ds) {
                 // 同一年，但不是昨天之前
-                return new SimpleDateFormat("MM月dd日").format(date);
+                return new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(date);
             }
 
             if (ds == yd) { //同一天
@@ -381,17 +382,17 @@ public class DateUtil {
                     // 一小时内到24小时
                     return (int) Math.floor(differentTime * 1d / (60 * 60 * 1000)) + "小时前";
                 } else {
-                    return new SimpleDateFormat("今天 HH:mm").format(date);
+                    return new SimpleDateFormat("今天 HH:mm", Locale.getDefault()).format(date);
                 }
             } else {
                 // 日期异常或异常
-                return new SimpleDateFormat("MM月dd日").format(date);
+                return new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(date);
             }
         }
     }
 
     @Deprecated
-    public static String getFriendlyDate2(Date date) {
+    public String getFriendlyDate2(Date date) {
 
         if (date == null) {
             date = new Date();
@@ -407,24 +408,24 @@ public class DateUtil {
 
         if (dateTime < ys) {
             // 不是同一年
-            return new SimpleDateFormat("MM月dd日").format(date);
+            return new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(date);
         }
 
         if ((ds - yd) == (48 * 60 * 60 * 1000)) {
-            return new SimpleDateFormat("前天 HH:mm").format(date);
+            return new SimpleDateFormat("前天 HH:mm", Locale.getDefault()).format(date);
         }
 
         if ((ds - yd) == (24 * 60 * 60 * 1000)) {
-            return new SimpleDateFormat("昨天 HH:mm").format(date);
+            return new SimpleDateFormat("昨天 HH:mm", Locale.getDefault()).format(date);
         }
 
         if (dateTime < ds) {
             // 同一年，但不是昨天之前
-            return new SimpleDateFormat("MM月dd日").format(date);
+            return new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(date);
         }
 
         if (nowTime - dateTime > 60 * 60 * 1000) {
-            return new SimpleDateFormat("今天 HH:mm").format(date);
+            return new SimpleDateFormat("今天 HH:mm", Locale.getDefault()).format(date);
         }
 
         if (nowTime - dateTime > 60 * 1000) {
@@ -436,7 +437,7 @@ public class DateUtil {
         }
 
         // 日期异常
-        return new SimpleDateFormat("MM月dd日").format(date);
+        return new SimpleDateFormat("MM月dd日", Locale.getDefault()).format(date);
     }
 
     public String getWeek(Date date) {

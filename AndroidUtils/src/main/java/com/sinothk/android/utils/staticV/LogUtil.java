@@ -1,9 +1,10 @@
-package com.sinothk.android.utils;
+package com.sinothk.android.utils.staticV;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.sinothk.android.utils.staticV.FileStaticUtil;
+import com.sinothk.android.utils.AppUtil;
+import com.sinothk.android.utils.DateUtil;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -44,58 +45,58 @@ public class LogUtil {
         isPrintLogs = printLogs;
     }
 
-    /**
-     * 打印到控制台和SDCard中：指定文件路径，默认保存7天
-     *
-     * @param context
-     * @param filePath
-     */
-    public static void init(Context context, String filePath) {
-        init(context, true);
+//    /**
+//     * 打印到控制台和SDCard中：指定文件路径，默认保存7天
+//     *
+//     * @param context
+//     * @param filePath
+//     */
+//    public static void init(Context context, String filePath) {
+//        init(context, true);
+//
+//        //
+//        isSaveIntoSdCard = true;
+//        saveIntoSdCardPath = filePath;
+//        isSaveIntoSdCardDays = 7;
+//
+//        // 内容数据
+//        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        appVersionName = AppUtil.getAppVersionName();
+//        appVersionCode = AppUtil.getAppVersionCode();
+//
+//        String msg = "版本信息：V" + appVersionName + " - " + appVersionCode;
+//        printLog(LogUtil.class.getName(), 'e', msg, isSaveIntoSdCard);
+//
+//        // 删除过期文件
+//        deleteOverDateLogs(filePath, isSaveIntoSdCardDays);
+//    }
 
-        //
-        isSaveIntoSdCard = true;
-        saveIntoSdCardPath = filePath;
-        isSaveIntoSdCardDays = 7;
-
-        // 内容数据
-        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        appVersionName = AppUtil.getAppVersionName();
-        appVersionCode = AppUtil.getAppVersionCode();
-
-        String msg = "版本信息：V" + appVersionName + " - " + appVersionCode;
-        printLog(LogUtil.class.getName(), 'e', msg, isSaveIntoSdCard);
-
-        // 删除过期文件
-        deleteOverDateLogs(filePath, isSaveIntoSdCardDays);
-    }
-
-    /**
-     * 打印到控制台和SDCard中：指定文件路径，指定文件保存天数
-     *
-     * @param context
-     * @param filePath
-     * @param saveDays
-     */
-    public static void init(Context context, String filePath, int saveDays) {
-        init(context, true);
-
-        //
-        isSaveIntoSdCard = true;
-        saveIntoSdCardPath = filePath;
-        isSaveIntoSdCardDays = saveDays;
-
-        // 内容数据
-        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        appVersionName = AppUtil.getAppVersionName();
-        appVersionCode = AppUtil.getAppVersionCode();
-
-        String msg = "版本信息：V" + appVersionName + " - " + appVersionCode;
-        printLog(LogUtil.class.getName(), 'e', msg, isSaveIntoSdCard);
-
-        // 删除过期文件
-        deleteOverDateLogs(filePath, isSaveIntoSdCardDays);
-    }
+//    /**
+//     * 打印到控制台和SDCard中：指定文件路径，指定文件保存天数
+//     *
+//     * @param context
+//     * @param filePath
+//     * @param saveDays
+//     */
+//    public static void init(Context context, String filePath, int saveDays) {
+//        init(context, true);
+//
+//        //
+//        isSaveIntoSdCard = true;
+//        saveIntoSdCardPath = filePath;
+//        isSaveIntoSdCardDays = saveDays;
+//
+//        // 内容数据
+//        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        appVersionName = AppUtil.getAppVersionName();
+//        appVersionCode = AppUtil.getAppVersionCode();
+//
+//        String msg = "版本信息：V" + appVersionName + " - " + appVersionCode;
+//        printLog(LogUtil.class.getName(), 'e', msg, isSaveIntoSdCard);
+//
+//        // 删除过期文件
+//        deleteOverDateLogs(filePath, isSaveIntoSdCardDays);
+//    }
 
     // -----------------------------是否保存到SDCard：初始化时指定------------------------------------
     public static void d(Class<?> currClass, String msg) {
@@ -222,31 +223,31 @@ public class LogUtil {
      * @param days   过期的天数
      */
     private static void deleteOverDateLogs(String dirStr, int days) {
-        Date date2 = new Date();
-
-        File f = FileStaticUtil.createFileDirectory(dirStr, true);// "appLogs/xx/yy"
-        File[] files = null;
-        if (f.exists()) {
-            files = f.listFiles();
-
-            for (int j = 0; j < files.length; j++) {
-                try {
-
-                    if (files[j].getName().contains(".")) {
-                        String dayStr = files[j].getName().substring(0, files[j].getName().indexOf("."));
-
-                        Date date1 = DateUtil.getDateByDateStr(dayStr, "yyyy-MM-dd");
-
-                        if (DateUtil.getTwoDateInterval(date1, date2) > days) {
-                            printLog(LogUtil.class.getName(), 'i', "删除过期日志文件：" + files[j].getPath(), isSaveIntoSdCard);
-                            files[j].delete();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+//        Date date2 = new Date();
+//
+//        File f = FileStaticUtil.createFileDirectory(dirStr, true);// "appLogs/xx/yy"
+//        File[] files = null;
+//        if (f.exists()) {
+//            files = f.listFiles();
+//
+//            for (int j = 0; j < files.length; j++) {
+//                try {
+//
+//                    if (files[j].getName().contains(".")) {
+//                        String dayStr = files[j].getName().substring(0, files[j].getName().indexOf("."));
+//
+//                        Date date1 = DateUtil.getDateByDateStr(dayStr, "yyyy-MM-dd");
+//
+//                        if (DateUtil.getTwoDateInterval(date1, date2) > days) {
+//                            printLog(LogUtil.class.getName(), 'i', "删除过期日志文件：" + files[j].getPath(), isSaveIntoSdCard);
+//                            files[j].delete();
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
     }
 
 //    /**
