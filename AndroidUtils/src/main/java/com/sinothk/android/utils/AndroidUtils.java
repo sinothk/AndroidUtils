@@ -1,9 +1,10 @@
 package com.sinothk.android.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 
-import com.sinothk.android.utils.staticV.NetStaticUtil;
+import java.util.Stack;
 
 /**
  * <pre>
@@ -102,6 +103,7 @@ public class AndroidUtils {
     /**
      * StringUtil
      */
+    @SuppressLint("StaticFieldLeak")
     private static NetUtil netUtil;
 
     public static NetUtil net() {
@@ -114,5 +116,19 @@ public class AndroidUtils {
             }
         }
         return netUtil;
+    }
+
+    /**
+     * 页面工具类
+     */
+    private static PageUtil pageUtil;
+
+    public static PageUtil page() {
+        if (pageUtil == null) {
+            synchronized (AndroidUtils.class) {
+                pageUtil = new PageUtil();
+            }
+        }
+        return pageUtil;
     }
 }

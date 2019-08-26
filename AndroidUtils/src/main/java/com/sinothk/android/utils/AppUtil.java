@@ -32,7 +32,6 @@ import static com.sinothk.android.utils.BuildConfig.DEBUG;
  * Company 汉合瑞信.
  * Created by 梁玉涛 on 2015/9/22.
  */
-@Deprecated
 public class AppUtil {
 
     private static Context mContext;
@@ -40,7 +39,6 @@ public class AppUtil {
     public static void init(Context context) {
         mContext = context;
     }
-
 
     /**
      * 获取应用程序版本名称信息

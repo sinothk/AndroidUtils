@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
  * Created by LYT on 2017/8/11.
  * 功能：处理
  */
-@Deprecated
 public class ViewUtil {
 
     /**
