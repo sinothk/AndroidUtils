@@ -13,7 +13,7 @@
 
 ## Step 2. Add the dependency
 	dependencies {
-	        implementation 'com.github.sinothk:AndroidUtils:1.19.0826'
+	        implementation 'com.github.sinothk:AndroidUtils:1.19.0827'
 	}
 
 # 使用
