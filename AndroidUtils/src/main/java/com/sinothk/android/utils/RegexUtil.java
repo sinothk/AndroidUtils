@@ -8,10 +8,9 @@ import java.util.regex.Pattern;
  * 正则工具类-http://blog.csdn.net/xyang81/article/details/7706408
  * 提供验证邮箱、手机号、电话号码、身份证号码、数字等方法
  * Created by LYT on 2017/8/14.
- * 功能：
+ * 功能： 正则判断
  */
-@Deprecated
-public final class RegexUtils {
+public final class RegexUtil {
 
     /**
      * 手机号码，中间4位星号替换
@@ -19,7 +18,11 @@ public final class RegexUtils {
      * @param phone 手机号
      * @return
      */
-    public static String phoneNoHide(String phone) {
+    public String phoneNoHide(String phone) {
+        if (phone == null || phone.length() < 11) {
+            return phone;
+        }
+
         // 括号表示组，被替换的部分$n表示第n组的内容
         // 正则表达式中，替换字符串，括号的意思是分组，在replace()方法中，
         // 参数二中可以使用$n(n为数字)来依次引用模式串中用括号定义的字串。
@@ -34,14 +37,17 @@ public final class RegexUtils {
      * @param cardId 卡号
      * @return
      */
-    public static String cardIdHide(String cardId) {
+    public String cardIdHide(String cardId) {
+        if (cardId == null || cardId.length() < 15) {
+            return cardId;
+        }
         return cardId.replaceAll("\\d{15}(\\d{3})", "**** **** **** **** $1");
     }
 
     /**
      * 是否为车牌号（沪A88888）
      */
-    public static boolean checkVehicleNo(String vehicleNo) {
+    public boolean checkVehicleNo(String vehicleNo) {
         Pattern pattern = Pattern.compile("^[\u4e00-\u9fa5]{1}[a-zA-Z]{1}[a-zA-Z_0-9]{5}$");
         return pattern.matcher(vehicleNo).find();
 
@@ -53,7 +59,7 @@ public final class RegexUtils {
      * @param idCard 居民身份证号码15位或18位，最后一位可能是数字或字母
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkIdCard(String idCard) {
+    public boolean checkIdCard(String idCard) {
         String regex = "[1-9]\\d{13,16}[a-zA-Z0-9]{1}";
         return Pattern.matches(regex, idCard);
     }
@@ -69,7 +75,7 @@ public final class RegexUtils {
      *               <p>电信的号段：133、153、180（未启用）、189</p>
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkMobile(String mobile) {
+    public boolean checkMobile(String mobile) {
         String regex = "(\\+\\d+)?1[3458]\\d{9}$";
         return Pattern.matches(regex, mobile);
     }
@@ -85,7 +91,7 @@ public final class RegexUtils {
      *              <p><b>电话号码：</b>这包含从 0 到 9 的一个或多个数字 </p>
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkPhone(String phone) {
+    public boolean checkPhone(String phone) {
         String regex = "(\\+\\d+)?(\\d{3,4}\\-?)?\\d{7,8}$";
         return Pattern.matches(regex, phone);
     }
@@ -96,7 +102,7 @@ public final class RegexUtils {
      * @param email email地址，格式：zhangsan@sina.com，zhangsan@xxx.com.cn，xxx代表邮件服务商
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkEmail(String email) {
+    public boolean checkEmail(String email) {
         String regex = "\\w+@\\w+\\.[a-z]+(\\.[a-z]+)?";
         return Pattern.matches(regex, email);
     }
@@ -107,7 +113,7 @@ public final class RegexUtils {
      * @param digit 一位或多位0-9之间的整数
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkDigit(String digit) {
+    public boolean checkDigit(String digit) {
         String regex = "\\-?[1-9]\\d+";
         return Pattern.matches(regex, digit);
     }
@@ -118,7 +124,7 @@ public final class RegexUtils {
      * @param decimals 一位或多位0-9之间的浮点数，如：1.23，233.30
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkDecimals(String decimals) {
+    public boolean checkDecimals(String decimals) {
         String regex = "\\-?[1-9]\\d+(\\.\\d+)?";
         return Pattern.matches(regex, decimals);
     }
@@ -129,7 +135,7 @@ public final class RegexUtils {
      * @param blankSpace 空白字符，包括：空格、\t、\n、\r、\f、\x0B
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkBlankSpace(String blankSpace) {
+    public boolean checkBlankSpace(String blankSpace) {
         String regex = "\\s+";
         return Pattern.matches(regex, blankSpace);
     }
@@ -140,7 +146,7 @@ public final class RegexUtils {
      * @param chinese 中文字符
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkChinese(String chinese) {
+    public boolean checkChinese(String chinese) {
         String regex = "^[\u4E00-\u9FA5]+$";
         return Pattern.matches(regex, chinese);
     }
@@ -151,7 +157,7 @@ public final class RegexUtils {
      * @param birthday 日期，格式：1992-09-03，或1992.09.03
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkBirthday(String birthday) {
+    public boolean checkBirthday(String birthday) {
         String regex = "[1-9]{4}([-./])\\d{1,2}\\1\\d{1,2}";
         return Pattern.matches(regex, birthday);
     }
@@ -162,7 +168,7 @@ public final class RegexUtils {
      * @param url 格式：http://blog.csdn.net:80/xyang81/article/details/7705960? 或 http://www.csdn.net:80
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkURL(String url) {
+    public boolean checkURL(String url) {
         String regex = "(https?://(w{3}\\.)?)?\\w+\\.\\w+(\\.[a-zA-Z]+)*(:\\d{1,5})?(/\\w*)*(\\??(.+=.*)?(&.+=.*)?)?";
         return Pattern.matches(regex, url);
     }
@@ -173,7 +179,7 @@ public final class RegexUtils {
      * @param postcode 邮政编码
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkPostcode(String postcode) {
+    public boolean checkPostcode(String postcode) {
         String regex = "[1-9]\\d{5}";
         return Pattern.matches(regex, postcode);
     }
@@ -184,7 +190,7 @@ public final class RegexUtils {
      * @param ipAddress IPv4标准地址
      * @return 验证成功返回true，验证失败返回false
      */
-    public static boolean checkIpAddress(String ipAddress) {
+    public boolean checkIpAddress(String ipAddress) {
         String regex = "[1-9](\\d{1,2})?\\.(0|([1-9](\\d{1,2})?))\\.(0|([1-9](\\d{1,2})?))\\.(0|([1-9](\\d{1,2})?))";
         return Pattern.matches(regex, ipAddress);
     }
@@ -195,7 +201,7 @@ public final class RegexUtils {
      * @param string 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isMobileSimple(String string) {
+    public boolean isMobileSimple(String string) {
         return isMatch(ConstantData.REGEX_MOBILE_SIMPLE, string);
     }
 
@@ -205,7 +211,7 @@ public final class RegexUtils {
      * @param string 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isMobileExact(String string) {
+    public boolean isMobileExact(String string) {
         return isMatch(ConstantData.REGEX_MOBILE_EXACT, string);
     }
 
@@ -215,7 +221,7 @@ public final class RegexUtils {
      * @param string 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isTel(String string) {
+    public boolean isTel(String string) {
         return isMatch(ConstantData.REGEX_TEL, string);
     }
 
@@ -225,7 +231,7 @@ public final class RegexUtils {
      * @param string 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isIDCard15(String string) {
+    public boolean isIDCard15(String string) {
         return isMatch(ConstantData.REGEX_IDCARD15, string);
     }
 
@@ -235,7 +241,7 @@ public final class RegexUtils {
      * @param string 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isIDCard18(String string) {
+    public boolean isIDCard18(String string) {
         return isMatch(ConstantData.REGEX_IDCARD18, string);
     }
 
@@ -245,7 +251,7 @@ public final class RegexUtils {
      * @param string 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isEmail(String string) {
+    public boolean isEmail(String string) {
         return isMatch(ConstantData.REGEX_EMAIL, string);
     }
 
@@ -255,7 +261,7 @@ public final class RegexUtils {
      * @param string 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isURL(String string) {
+    public boolean isURL(String string) {
         return isMatch(ConstantData.REGEX_URL, string);
     }
 
@@ -265,7 +271,7 @@ public final class RegexUtils {
      * @param string 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isChz(String string) {
+    public boolean isChz(String string) {
         return isMatch(ConstantData.REGEX_CHZ, string);
     }
 
@@ -276,7 +282,7 @@ public final class RegexUtils {
      * @param string 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isUsername(String string) {
+    public boolean isUsername(String string) {
         return isMatch(ConstantData.REGEX_USERNAME, string);
     }
 
@@ -286,7 +292,7 @@ public final class RegexUtils {
      * @param string 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isDate(String string) {
+    public boolean isDate(String string) {
         return isMatch(ConstantData.REGEX_DATE, string);
     }
 
@@ -296,7 +302,7 @@ public final class RegexUtils {
      * @param string 待验证文本
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isIP(String string) {
+    public boolean isIP(String string) {
         return isMatch(ConstantData.REGEX_IP, string);
     }
 
@@ -307,7 +313,7 @@ public final class RegexUtils {
      * @param string 要匹配的字符串
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
-    public static boolean isMatch(String regex, String string) {
+    public boolean isMatch(String regex, String string) {
         return !StringStaticUtil.isEmpty(string) && Pattern.matches(regex, string);
     }
 }

@@ -153,6 +153,7 @@ public class AndroidUtils {
      */
     @SuppressLint("StaticFieldLeak")
     private static UnitUtil unitUtil;
+
     public static UnitUtil unit() {
         if (unitUtil == null) {
             synchronized (AndroidUtils.class) {
@@ -179,6 +180,9 @@ public class AndroidUtils {
         return md5Util;
     }
 
+    /**
+     * 编码：使用密钥加密、解密
+     */
     private static SecretUtil secretUtil;
 
     public static SecretUtil codeBySecret() {
@@ -188,5 +192,55 @@ public class AndroidUtils {
             }
         }
         return secretUtil;
+    }
+
+    // 手机硬件
+    @SuppressLint("StaticFieldLeak")
+    private static PhoneUtil phoneUtil;
+
+    public static PhoneUtil phone() {
+        if (phoneUtil == null) {
+            synchronized (AndroidUtils.class) {
+                if (context == null) {
+                    contextNullError();
+                }
+                phoneUtil = new PhoneUtil(context);
+            }
+        }
+        return phoneUtil;
+    }
+
+    /**
+     * 正则
+     */
+    private static RegexUtil regexUtil;
+
+    public static RegexUtil regex() {
+        if (regexUtil == null) {
+            synchronized (AndroidUtils.class) {
+                regexUtil = new RegexUtil();
+            }
+        }
+        return regexUtil;
+    }
+
+    /**
+     * 偏好缓存
+     *
+     * @return
+     */
+    @SuppressLint("StaticFieldLeak")
+    private static PreferUtil preferUtil;
+
+    public static PreferUtil cache() {
+        if (preferUtil == null) {
+            synchronized (AndroidUtils.class) {
+                if (context == null) {
+                    contextNullError();
+                }
+                preferUtil = new PreferUtil(context);
+            }
+        }
+        return preferUtil;
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.sinothk.android.utils.AndroidUtils;
+import com.sinothk.android.utils.bean.Bank;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,6 +15,22 @@ public class MainActivity extends AppCompatActivity {
 
         AndroidUtils.init(getApplicationContext());
 
+
+
+//        // 偏好设置存储
+//        Bank bank = new Bank("1111", "建行");
+//        boolean operateRes2 = AndroidUtils.cache().setBean("bank", bank);
+//        AndroidUtils.logcat(MainActivity.class).e(operateRes2 + "");
+//        Bank bankEntity = (Bank) AndroidUtils.cache().getBean("bank", Bank.class);
+//        AndroidUtils.logcat(MainActivity.class).e(bankEntity.toString());
+
+//        // 正则判断
+//        boolean vehicleNo = AndroidUtils.regex().checkEmail("381518188@qq.com");
+//        AndroidUtils.logcat(MainActivity.class).e(vehicleNo + "");
+
+//        // phone硬件信息
+//        String macAddress = AndroidUtils.phone().getMacAddress();
+//        AndroidUtils.logcat(MainActivity.class).e(macAddress);
 
         // SecretUtil
 //        String secretStr = AndroidUtils.codeBySecret().getCode("sinothk", "123456");

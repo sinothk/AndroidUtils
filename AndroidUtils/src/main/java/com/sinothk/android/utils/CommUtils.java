@@ -49,6 +49,7 @@ import java.util.Locale;
 /**
  * Created by linlongxin on 2015/12/26.
  */
+@Deprecated
 public class CommUtils {
 
     private static String TAG = "";

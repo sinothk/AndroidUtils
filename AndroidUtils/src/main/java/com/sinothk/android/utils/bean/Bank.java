@@ -13,6 +13,13 @@ public class Bank {
     String bankId;
     String bankName;
 
+    public Bank() {
+    }
+
+    /**
+     * @param bankId
+     * @param bankName
+     */
     public Bank(String bankId, String bankName) {
         this.bankId = bankId;
         this.bankName = bankName;
@@ -32,5 +39,13 @@ public class Bank {
 
     public void setBankName(String bankName) {
         this.bankName = bankName;
+    }
+
+    @Override
+    public String toString() {
+        return "Bank{" +
+                "bankId='" + bankId + '\'' +
+                ", bankName='" + bankName + '\'' +
+                '}';
     }
 }

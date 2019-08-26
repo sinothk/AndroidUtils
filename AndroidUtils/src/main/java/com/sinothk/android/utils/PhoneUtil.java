@@ -44,50 +44,44 @@ import static com.sinothk.android.utils.BuildConfig.DEBUG;
  * Created by LYT on 2017/8/11.
  * 功能：
  */
-@Deprecated
 public class PhoneUtil {
 
-    private static Context mContext;
+    private Context context;
 
-    public static void init(Context context) {
-        mContext = context;
+    PhoneUtil(Context mContext) {
+        context = mContext;
     }
 
-    public static int getPhoneWidth(Context mContext) {
-        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        int width = wm.getDefaultDisplay().getWidth();
-        return width;
+    public int getPhoneWidth() {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        return wm.getDefaultDisplay().getWidth();
     }
 
-    public static int getPhoneHeight(Context mContext) {
-        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        int height = wm.getDefaultDisplay().getHeight();
-        return height;
+    public int getPhoneHeight() {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        return wm.getDefaultDisplay().getHeight();
     }
 
     /**
      * 判断设备是否是手机
      *
-     * @param context 上下文
      * @return {@code true}: 是<br>{@code false}: 否
      */
-    public static boolean isPhone(Context context) {
+    public boolean isPhone() {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return tm.getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
     }
 
     /**
      * 获取手机的IMIE
-     * <p>需与{@link #isPhone(Context)}一起使用</p>
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.READ_PHONE_STATE"/>}</p>
      *
-     * @param context 上下文
      * @return IMIE码
      */
-    @SuppressLint("MissingPermission")
-    public static String getPhoneIMEI(Context context) {
+    @SuppressLint({"MissingPermission", "HardwareIds"})
+    public String getPhoneIMEI() {
         String deviceId;
-        if (isPhone(context)) {
+        if (isPhone()) {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             deviceId = tm.getDeviceId();
         } else {
@@ -100,7 +94,6 @@ public class PhoneUtil {
      * 获取手机状态信息
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.READ_PHONE_STATE"/>}</p>
      *
-     * @param context 上下文
      * @return DeviceId(IMEI) = 99000311726612<br>
      * DeviceSoftwareVersion = 00<br>
      * Line1Number =<br>
@@ -118,7 +111,7 @@ public class PhoneUtil {
      * VoiceMailNumber = *86<br>
      */
     @SuppressLint("MissingPermission")
-    public static String getPhoneStatus(Context context) {
+    public String getPhoneStatus() {
         TelephonyManager tm = (TelephonyManager) context
                 .getSystemService(Context.TELEPHONY_SERVICE);
         String str = "";
@@ -143,34 +136,36 @@ public class PhoneUtil {
     /**
      * 跳至填充好phoneNumber的拨号界面
      *
-     * @param context     上下文
      * @param phoneNumber 电话号码
      */
-    public static void dial(Context context, String phoneNumber) {
-        context.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber)));
+    public void dial(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     /**
      * 拨打phoneNumber
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.CALL_PHONE"/>}</p>
      *
-     * @param context     上下文
      * @param phoneNumber 电话号码
      */
-    public static void call(Context context, String phoneNumber) {
-        context.startActivity(new Intent("android.intent.action.CALL", Uri.parse("tel:" + phoneNumber)));
+    public void call(String phoneNumber) {
+        Intent intent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + phoneNumber));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     /**
      * 发送短信
      *
-     * @param context     上下文
      * @param phoneNumber 电话号码
      * @param content     内容
      */
-    public static void sendSms(Context context, String phoneNumber, String content) {
+    public void sendSms(String phoneNumber, String content) {
         Uri uri = Uri.parse("smsto:" + (StringStaticUtil.isEmpty(phoneNumber) ? "" : phoneNumber));
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("sms_body", StringStaticUtil.isEmpty(content) ? "" : content);
         context.startActivity(intent);
     }
@@ -180,10 +175,9 @@ public class PhoneUtil {
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>}</p>
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.READ_CONTACTS"/>}</p>
      *
-     * @param context 上下文;
      * @return 联系人链表
      */
-    public static List<HashMap<String, String>> getAllContactInfo(Context context) {
+    public List<HashMap<String, String>> getAllContactInfo() {
         SystemClock.sleep(3000);
         ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
         // 1.获取内容解析者
@@ -244,7 +238,7 @@ public class PhoneUtil {
      * 打开手机联系人界面点击联系人后便获取该号码
      * <p>参照以下注释代码</p>
      */
-    public static void getContantNum() {
+    public void getContantNum() {
         Log.i("tips", "U should copy the following code.");
         /*
         Intent intent = new Intent();
@@ -276,10 +270,8 @@ public class PhoneUtil {
      * 获取手机短信并保存到xml中
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.READ_SMS"/>}</p>
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>}</p>
-     *
-     * @param context 上下文
      */
-    public static void getAllSMS(Context context) {
+    public void getAllSMS() {
         // 1.获取短信
         // 1.1获取内容解析者
         ContentResolver resolver = context.getContentResolver();
@@ -346,10 +338,9 @@ public class PhoneUtil {
      * 获取设备MAC地址
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>}</p>
      *
-     * @param context 上下文
      * @return MAC地址
      */
-    public static String getMacAddress(Context context) {
+    public String getMacAddress(Context context) {
         WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifi.getConnectionInfo();
         if (info != null) {
@@ -369,7 +360,8 @@ public class PhoneUtil {
      * @return MAC地址
      */
 
-    public static String getMacAddress() {
+    public String getMacAddress() {
+
         String macAddress = null;
         LineNumberReader lnr = null;
         InputStreamReader isr = null;
@@ -400,7 +392,7 @@ public class PhoneUtil {
      *
      * @return 设备型号
      */
-    public static String getModel() {
+    public String getModel() {
         String model = Build.MODEL;
         if (model != null) {
             model = model.trim().replaceAll("\\s*", "");
@@ -413,7 +405,7 @@ public class PhoneUtil {
     /**
      * 拨打电话
      */
-    public static void call(Activity activity, String phoneNumber) {
+    public void call(Activity activity, String phoneNumber) {
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -428,7 +420,7 @@ public class PhoneUtil {
     }
 
     //跳到拨号界面
-    public static void jumpDialUI(Activity activity, String phoneNumber) {
+    public void jumpDialUI(Activity activity, String phoneNumber) {
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
@@ -437,7 +429,7 @@ public class PhoneUtil {
     /**
      * 跳转至拨号界面
      */
-    public static void callDial(Activity activity, String phoneNumber) {
+    public void callDial(Activity activity, String phoneNumber) {
         activity.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber)));
     }
 
@@ -455,20 +447,20 @@ public class PhoneUtil {
     /**
      * 判断当前App处于前台还是后台状态
      */
-    public static boolean isApplicationBackground() {
-        if (mContext == null) {
+    public boolean isApplicationBackground() {
+        if (context == null) {
             if (DEBUG) {
                 throw new NullPointerException("mContext == null");
             }
             return false;
         }
 
-        ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         @SuppressWarnings("deprecation")
         List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
         if (!tasks.isEmpty()) {
             ComponentName topActivity = tasks.get(0).topActivity;
-            if (!topActivity.getPackageName().equals(mContext.getPackageName())) {
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
                 return true;
             }
         }
