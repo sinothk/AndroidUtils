@@ -1,6 +1,9 @@
 
 
 # 使用
+## 初始化
+       AndroidUtils.init(getApplicationContext());
+## 使用
        // 偏好设置存储
         Bank bank = new Bank("1111", "建行");
         boolean operateRes2 = AndroidUtils.cache().setBean("bank", bank);
