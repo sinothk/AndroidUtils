@@ -14,7 +14,7 @@ import javax.crypto.spec.SecretKeySpec;
  * Created by LYT on 2017/8/14.
  * 功能：
  */
-public class SecretUtils {
+public class SecretUtil {
 
     //算法DESede
     private static final String Algorithm = "DESede";
@@ -106,10 +106,6 @@ public class SecretUtils {
         return b2;
     }
 
-    /**
-     * @param args
-     * @throws UnsupportedEncodingException
-     */
 //    public static void main(String[] args) throws UnsupportedEncodingException {
 //        String key = "QAZWSXEDCTGFREDW@#$%";
 //        String src = "01234567890123456789";
@@ -122,6 +118,23 @@ public class SecretUtils {
 //        System.out.println("解密数据：" + decryptData);
 //    }
 
+    public String getCode(String value, String secretKey) {
+        try {
+            return encryptMode(secretKey, value);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getValue(String codeStr, String secretKey) {
+        try {
+            return decryptMode(getKeyByte(secretKey), hex2byte(codeStr.getBytes()));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
 
 

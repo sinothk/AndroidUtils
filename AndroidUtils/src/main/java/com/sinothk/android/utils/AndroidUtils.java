@@ -151,6 +151,7 @@ public class AndroidUtils {
     /**
      * 单位换算
      */
+    @SuppressLint("StaticFieldLeak")
     private static UnitUtil unitUtil;
     public static UnitUtil unit() {
         if (unitUtil == null) {
@@ -162,5 +163,30 @@ public class AndroidUtils {
             }
         }
         return unitUtil;
+    }
+
+    /**
+     * MD5
+     */
+    private static MD5Util md5Util;
+
+    public static MD5Util codeByMd5() {
+        if (md5Util == null) {
+            synchronized (AndroidUtils.class) {
+                md5Util = new MD5Util();
+            }
+        }
+        return md5Util;
+    }
+
+    private static SecretUtil secretUtil;
+
+    public static SecretUtil codeBySecret() {
+        if (secretUtil == null) {
+            synchronized (AndroidUtils.class) {
+                secretUtil = new SecretUtil();
+            }
+        }
+        return secretUtil;
     }
 }

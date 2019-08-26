@@ -14,12 +14,22 @@ public class MainActivity extends AppCompatActivity {
 
         AndroidUtils.init(getApplicationContext());
 
-        // 单位换算
-        String distance0 = AndroidUtils.unit().formatDistance(545.002);
-        AndroidUtils.logcat(MainActivity.class).e(distance0);
 
-        String distance = AndroidUtils.unit().formatDistance(1252545.002);
-        AndroidUtils.logcat(MainActivity.class).e(distance);
+        // SecretUtil
+//        String secretStr = AndroidUtils.codeBySecret().getCode("sinothk", "123456");
+//        AndroidUtils.logcat(MainActivity.class).e(secretStr);
+//        String valueStr = AndroidUtils.codeBySecret().getValue(secretStr, "123456");
+//        AndroidUtils.logcat(MainActivity.class).e(valueStr);
+
+//        // MD5
+//        String md5Str = AndroidUtils.codeByMd5().stringToMD5("sinothk");
+//        AndroidUtils.logcat(MainActivity.class).e(md5Str);
+
+//        // 单位换算
+//        String distance0 = AndroidUtils.unit().formatDistance(545.002);
+//        AndroidUtils.logcat(MainActivity.class).e(distance0);
+//        String distance = AndroidUtils.unit().formatDistance(1252545.002);
+//        AndroidUtils.logcat(MainActivity.class).e(distance);
 
         // 页面部分
 //        AndroidUtils.view().createNewViewHeight(null, 0.5f);
