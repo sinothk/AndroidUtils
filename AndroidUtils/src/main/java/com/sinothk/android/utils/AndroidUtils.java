@@ -1,10 +1,7 @@
 package com.sinothk.android.utils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-
-import java.util.Stack;
 
 /**
  * <pre>
@@ -16,10 +13,11 @@ import java.util.Stack;
  */
 public class AndroidUtils {
 
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
-    public static void init(Context context) {
-        context = context;
+    public static void init(Context mContext) {
+        context = mContext;
     }
 
     private static void contextNullError() {
@@ -130,5 +128,39 @@ public class AndroidUtils {
             }
         }
         return pageUtil;
+    }
+
+    /**
+     * View
+     */
+    @SuppressLint("StaticFieldLeak")
+    private static ViewUtil viewUtil;
+
+    public static ViewUtil view() {
+        if (viewUtil == null) {
+            synchronized (AndroidUtils.class) {
+                if (context == null) {
+                    contextNullError();
+                }
+                viewUtil = new ViewUtil(context);
+            }
+        }
+        return viewUtil;
+    }
+
+    /**
+     * 单位换算
+     */
+    private static UnitUtil unitUtil;
+    public static UnitUtil unit() {
+        if (unitUtil == null) {
+            synchronized (AndroidUtils.class) {
+                if (context == null) {
+                    contextNullError();
+                }
+                unitUtil = new UnitUtil(context);
+            }
+        }
+        return unitUtil;
     }
 }

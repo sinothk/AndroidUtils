@@ -4,13 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.sinothk.android.utils.AndroidUtils;
-import com.sinothk.android.utils.FileUtil;
-import com.sinothk.android.utils.LogcatUtil;
-import com.sinothk.android.utils.NetUtil;
-import com.sinothk.android.utils.staticV.NetStaticUtil;
-import com.sinothk.android.utils.ToastUtil;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +14,16 @@ public class MainActivity extends AppCompatActivity {
 
         AndroidUtils.init(getApplicationContext());
 
+        // 单位换算
+        String distance0 = AndroidUtils.unit().formatDistance(545.002);
+        AndroidUtils.logcat(MainActivity.class).e(distance0);
+
+        String distance = AndroidUtils.unit().formatDistance(1252545.002);
+        AndroidUtils.logcat(MainActivity.class).e(distance);
+
         // 页面部分
+//        AndroidUtils.view().createNewViewHeight(null, 0.5f);
+
 //        AndroidUtils.page().addActivity(this);
 //        AndroidUtils.page().removeActivity(this);
 //        AndroidUtils.page().finishAll();
