@@ -13,33 +13,33 @@
 
 ## Step 2. Add the dependency
 	dependencies {
-	        implementation 'com.github.sinothk:AndroidUtils:1.19.0829'
+	        implementation 'com.github.sinothk:AndroidUtils:1.19.0830'
 	}
 
 # 使用
 ## 初始化
-       Utils.init(getApplicationContext());
+       XUtils.init(getApplicationContext());
 ## 使用
        // 偏好设置存储
         Bank bank = new Bank("1111", "建行");
         boolean operateRes2 = AndroidUtils.cache().setBean("bank", bank);
-        Utils.logcat(MainActivity.class).e(operateRes2 + "");
+        XUtils.logcat(MainActivity.class).e(operateRes2 + "");
         Bank bankEntity = (Bank) AndroidUtils.cache().getBean("bank", Bank.class);
-        Utils.logcat(MainActivity.class).e(bankEntity.toString());
+        XUtils.logcat(MainActivity.class).e(bankEntity.toString());
 
         // 正则判断
         boolean vehicleNo = AndroidUtils.regex().checkEmail("381518188@qq.com");
-        Utils.logcat(MainActivity.class).e(vehicleNo + "");
+        XUtils.logcat(MainActivity.class).e(vehicleNo + "");
 
         // phone硬件信息
-        String macAddress = AndroidUtils.phone().getMacAddress();
-        Utils.logcat(MainActivity.class).e(macAddress);
+        String macAddress = XUtils.phone().getMacAddress();
+        XUtils.logcat(MainActivity.class).e(macAddress);
 
         // SecretUtil
-        String secretStr = AndroidUtils.codeBySecret().getCode("sinothk", "123456");
-        Utils.logcat(MainActivity.class).e(secretStr);
-        String valueStr = AndroidUtils.codeBySecret().getValue(secretStr, "123456");
-        Utils.logcat(MainActivity.class).e(valueStr);
+        String secretStr = XUtils.codeBySecret().getCode("sinothk", "123456");
+        XUtils.logcat(MainActivity.class).e(secretStr);
+        String valueStr = XUtils.codeBySecret().getValue(secretStr, "123456");
+        XUtils.logcat(MainActivity.class).e(valueStr);
 
         // MD5
         String md5Str = AndroidUtils.codeByMd5().stringToMD5("sinothk");
@@ -47,9 +47,9 @@
 
         // 单位换算
         String distance0 = AndroidUtils.unit().formatDistance(545.002);
-        Utils.logcat(MainActivity.class).e(distance0);
+        XUtils.logcat(MainActivity.class).e(distance0);
         String distance = AndroidUtils.unit().formatDistance(1252545.002);
-        Utils.logcat(MainActivity.class).e(distance);
+        XUtils.logcat(MainActivity.class).e(distance);
 
         // 页面部分
         Utils.view().createNewViewHeight(null, 0.5f);
