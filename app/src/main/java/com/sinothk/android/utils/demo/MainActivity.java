@@ -3,11 +3,8 @@ package com.sinothk.android.utils.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.sinothk.android.utils.AndroidUtils;
+import com.sinothk.android.utils.Utils;
 import com.sinothk.android.utils.bean.AppInfo;
-import com.sinothk.android.utils.bean.Bank;
-
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,11 +13,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AndroidUtils.init(getApplicationContext());
+        Utils.init(getApplicationContext());
 
         // app信息
-        AppInfo appInfo = AndroidUtils.app().getAppInfo();
-        AndroidUtils.logcat(MainActivity.class).e(appInfo.toString());
+        AppInfo appInfo = Utils.app().getAppInfo();
+        Utils.logcat(MainActivity.class).e(appInfo.toString());
 
         // 时间
 //        Date date = AndroidUtils.date().getDateByDateStr("2019-09-01 15:25:23", "yyyy-MM-dd HH:mm:ss");

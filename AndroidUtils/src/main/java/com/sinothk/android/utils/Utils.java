@@ -11,7 +11,7 @@ import android.content.Context;
  *  更新:
  * <pre>
  */
-public class AndroidUtils {
+public class Utils {
 
     @SuppressLint("StaticFieldLeak")
     private static Context context;
@@ -31,7 +31,7 @@ public class AndroidUtils {
 
     public static LogcatUtil logcat(Class<?> currClass) {
         if (logcatUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 logcatUtil = new LogcatUtil(currClass);
             }
         }
@@ -46,7 +46,7 @@ public class AndroidUtils {
 
     public static ToastUtil toast() {
         if (toastUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -63,7 +63,7 @@ public class AndroidUtils {
 
     public static FileUtil file() {
         if (fileUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 fileUtil = new FileUtil();
             }
         }
@@ -77,7 +77,7 @@ public class AndroidUtils {
 
     public static IntentUtil intent() {
         if (intentUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 intentUtil = new IntentUtil();
             }
         }
@@ -91,7 +91,7 @@ public class AndroidUtils {
 
     public static StringUtil string() {
         if (stringUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 stringUtil = new StringUtil();
             }
         }
@@ -106,7 +106,7 @@ public class AndroidUtils {
 
     public static NetUtil net() {
         if (netUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -123,7 +123,7 @@ public class AndroidUtils {
 
     public static PageUtil page() {
         if (pageUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 pageUtil = new PageUtil();
             }
         }
@@ -138,7 +138,7 @@ public class AndroidUtils {
 
     public static ViewUtil view() {
         if (viewUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -156,7 +156,7 @@ public class AndroidUtils {
 
     public static UnitUtil unit() {
         if (unitUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -173,7 +173,7 @@ public class AndroidUtils {
 
     public static MD5Util codeByMd5() {
         if (md5Util == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 md5Util = new MD5Util();
             }
         }
@@ -187,7 +187,7 @@ public class AndroidUtils {
 
     public static SecretUtil codeBySecret() {
         if (secretUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 secretUtil = new SecretUtil();
             }
         }
@@ -200,7 +200,7 @@ public class AndroidUtils {
 
     public static PhoneUtil phone() {
         if (phoneUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -217,7 +217,7 @@ public class AndroidUtils {
 
     public static RegexUtil regex() {
         if (regexUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 regexUtil = new RegexUtil();
             }
         }
@@ -234,7 +234,7 @@ public class AndroidUtils {
 
     public static PreferUtil cache() {
         if (preferUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -251,7 +251,7 @@ public class AndroidUtils {
 
     public static ImageUtil image() {
         if (imageUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 imageUtil = new ImageUtil();
             }
         }
@@ -265,7 +265,7 @@ public class AndroidUtils {
 
     public static DateUtil date() {
         if (dateUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 dateUtil = new DateUtil();
             }
         }
@@ -280,7 +280,7 @@ public class AndroidUtils {
 
     public static AppUtil app() {
         if (appUtil == null) {
-            synchronized (AndroidUtils.class) {
+            synchronized (Utils.class) {
                 if (context == null) {
                     contextNullError();
                 }
