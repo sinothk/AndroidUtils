@@ -3,21 +3,21 @@ package com.sinothk.android.utils.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.sinothk.android.utils.Utils;
+import com.sinothk.android.utils.XUtils;
 import com.sinothk.android.utils.bean.AppInfo;
 
-public class MainActivity extends AppCompatActivity {
+public class XUtilsMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Utils.init(getApplicationContext());
+        XUtils.init(getApplicationContext());
 
         // app信息
-        AppInfo appInfo = Utils.app().getAppInfo();
-        Utils.logcat(MainActivity.class).e(appInfo.toString());
+        AppInfo appInfo = XUtils.app().getAppInfo();
+        XUtils.logcat(XUtilsMainActivity.class).e(appInfo.toString());
 
         // 时间
 //        Date date = AndroidUtils.date().getDateByDateStr("2019-09-01 15:25:23", "yyyy-MM-dd HH:mm:ss");

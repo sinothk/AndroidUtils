@@ -11,7 +11,7 @@ import android.content.Context;
  *  更新:
  * <pre>
  */
-public class Utils {
+public class XUtils {
 
     @SuppressLint("StaticFieldLeak")
     private static Context context;
@@ -31,7 +31,7 @@ public class Utils {
 
     public static LogcatUtil logcat(Class<?> currClass) {
         if (logcatUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 logcatUtil = new LogcatUtil(currClass);
             }
         }
@@ -46,7 +46,7 @@ public class Utils {
 
     public static ToastUtil toast() {
         if (toastUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -63,7 +63,7 @@ public class Utils {
 
     public static FileUtil file() {
         if (fileUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 fileUtil = new FileUtil();
             }
         }
@@ -77,7 +77,7 @@ public class Utils {
 
     public static IntentUtil intent() {
         if (intentUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 intentUtil = new IntentUtil();
             }
         }
@@ -91,7 +91,7 @@ public class Utils {
 
     public static StringUtil string() {
         if (stringUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 stringUtil = new StringUtil();
             }
         }
@@ -106,7 +106,7 @@ public class Utils {
 
     public static NetUtil net() {
         if (netUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -123,7 +123,7 @@ public class Utils {
 
     public static PageUtil page() {
         if (pageUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 pageUtil = new PageUtil();
             }
         }
@@ -138,7 +138,7 @@ public class Utils {
 
     public static ViewUtil view() {
         if (viewUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -156,7 +156,7 @@ public class Utils {
 
     public static UnitUtil unit() {
         if (unitUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -173,7 +173,7 @@ public class Utils {
 
     public static MD5Util codeByMd5() {
         if (md5Util == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 md5Util = new MD5Util();
             }
         }
@@ -187,7 +187,7 @@ public class Utils {
 
     public static SecretUtil codeBySecret() {
         if (secretUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 secretUtil = new SecretUtil();
             }
         }
@@ -200,7 +200,7 @@ public class Utils {
 
     public static PhoneUtil phone() {
         if (phoneUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -217,7 +217,7 @@ public class Utils {
 
     public static RegexUtil regex() {
         if (regexUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 regexUtil = new RegexUtil();
             }
         }
@@ -234,7 +234,7 @@ public class Utils {
 
     public static PreferUtil cache() {
         if (preferUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 if (context == null) {
                     contextNullError();
                 }
@@ -251,7 +251,7 @@ public class Utils {
 
     public static ImageUtil image() {
         if (imageUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 imageUtil = new ImageUtil();
             }
         }
@@ -265,7 +265,7 @@ public class Utils {
 
     public static DateUtil date() {
         if (dateUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 dateUtil = new DateUtil();
             }
         }
@@ -280,7 +280,7 @@ public class Utils {
 
     public static AppUtil app() {
         if (appUtil == null) {
-            synchronized (Utils.class) {
+            synchronized (XUtils.class) {
                 if (context == null) {
                     contextNullError();
                 }

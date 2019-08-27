@@ -1,4 +1,4 @@
-//package com.sinothk.android.utils;
+package com.sinothk.android.utils.staticV;//package com.sinothk.android.utils;
 //
 //import android.Manifest;
 //import android.annotation.SuppressLint;
