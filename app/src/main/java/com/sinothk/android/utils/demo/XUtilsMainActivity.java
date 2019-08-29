@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.sinothk.android.utils.XUtils;
 import com.sinothk.android.utils.bean.AppInfo;
+import com.sinothk.android.utils.bean.Bank;
 
 public class XUtilsMainActivity extends AppCompatActivity {
 
@@ -15,9 +16,12 @@ public class XUtilsMainActivity extends AppCompatActivity {
 
         XUtils.init(getApplicationContext());
 
+
+         String rootPath = XUtils.file().getRootPath(this);
+
         // app信息
-        AppInfo appInfo = XUtils.app().getAppInfo();
-        XUtils.logcat(XUtilsMainActivity.class).e(appInfo.toString());
+//        AppInfo appInfo = XUtils.app().getAppInfo();
+//        XUtils.logcat(XUtilsMainActivity.class).e(appInfo.toString());
 
         // 时间
 //        Date date = AndroidUtils.date().getDateByDateStr("2019-09-01 15:25:23", "yyyy-MM-dd HH:mm:ss");
@@ -28,10 +32,11 @@ public class XUtilsMainActivity extends AppCompatActivity {
 
 //        // 偏好设置存储
 //        Bank bank = new Bank("1111", "建行");
-//        boolean operateRes2 = AndroidUtils.cache().setBean("bank", bank);
-//        AndroidUtils.logcat(MainActivity.class).e(operateRes2 + "");
-//        Bank bankEntity = (Bank) AndroidUtils.cache().getBean("bank", Bank.class);
-//        AndroidUtils.logcat(MainActivity.class).e(bankEntity.toString());
+//        boolean operateRes2 = XUtils.cache().setBean("bank", bank);
+//        XUtils.logcat(XUtilsMainActivity.class).e(operateRes2 + "");
+//
+//        Bank bankEntity = (Bank) XUtils.cache().getBean("bank", Bank.class);
+//        XUtils.logcat(XUtilsMainActivity.class).e(bankEntity.toString());
 //
 //        // 正则判断
 //        boolean vehicleNo = AndroidUtils.regex().checkEmail("381518188@qq.com");
