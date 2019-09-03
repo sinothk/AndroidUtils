@@ -17,7 +17,9 @@ public class XUtilsMainActivity extends AppCompatActivity {
         XUtils.init(getApplicationContext());
 
 
-         String rootPath = XUtils.file().getRootPath(this);
+        String rootPath = XUtils.file().getRootPath(this);
+
+        double dis = XUtils.map().getDistance(1d, 2d, 3d, 5d);
 
         // app信息
 //        AppInfo appInfo = XUtils.app().getAppInfo();

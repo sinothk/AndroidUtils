@@ -289,4 +289,17 @@ public class XUtils {
         }
         return appUtil;
     }
+
+    private static MapUtil mapUtil;
+    public static MapUtil map() {
+        if (mapUtil == null) {
+            synchronized (XUtils.class) {
+//                if (context == null) {
+//                    contextNullError();
+//                }
+                mapUtil = new MapUtil();
+            }
+        }
+        return mapUtil;
+    }
 }
