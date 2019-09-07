@@ -3,9 +3,12 @@ package com.sinothk.android.utils.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.sinothk.android.utils.CollectUtil;
 import com.sinothk.android.utils.XUtils;
 import com.sinothk.android.utils.bean.AppInfo;
 import com.sinothk.android.utils.bean.Bank;
+
+import java.util.ArrayList;
 
 public class XUtilsMainActivity extends AppCompatActivity {
 
@@ -16,10 +19,31 @@ public class XUtilsMainActivity extends AppCompatActivity {
 
         XUtils.init(getApplicationContext());
 
+        ArrayList<Bank> dList = new ArrayList<Bank>();
+        dList.add(new Bank("12", "上海农商银行"));
+        dList.add(new Bank("13", "波业银行"));
+        dList.add(new Bank("14", "中国工商银行"));
+        dList.add(new Bank("11", "啊商银行"));
 
-        String rootPath = XUtils.file().getRootPath(this);
 
-        double dis = XUtils.map().getDistance(1d, 2d, 3d, 5d);
+        String key = XUtils.sets().getChineseCharSpell('白');
+        System.out.println("code = " + key);
+
+        String key2 = XUtils.sets().getChineseCharSpell('y');
+        System.out.println("code2 = " + key2);
+
+        String key3 = XUtils.sets().getChineseCharSpell('1');
+        System.out.println("code2 = " + key3);
+
+//        new CollectUtil<Bank>().sortByChineseKeyword(dList, "getBankName", CollectUtil.ASC);
+//        for (Bank b : dList) {
+//            System.out.println("code = " + b.getBankId() + "，name = " + b.getBankName());
+//        }
+
+
+//        String rootPath = XUtils.file().getRootPath(this);
+//
+//        double dis = XUtils.map().getDistance(1d, 2d, 3d, 5d);
 
         // app信息
 //        AppInfo appInfo = XUtils.app().getAppInfo();

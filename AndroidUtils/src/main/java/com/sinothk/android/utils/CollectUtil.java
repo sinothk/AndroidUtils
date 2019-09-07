@@ -1,8 +1,17 @@
 package com.sinothk.android.utils;
 
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +24,6 @@ import java.util.Map;
  *  @Update:
  * <pre>
  */
-@Deprecated
 public class CollectUtil<E> {
 
     public static boolean isNotEmpty(List<?> list) {
@@ -43,39 +51,42 @@ public class CollectUtil<E> {
 //        sortByChineseKeyword(list, method, "asc");
 //    }
 //
-//    /**
-//     * 实体列表中，按中文关键字排序:根据指定的排序方式排序
-//     *
-//     * @param list
-//     * @param method 属性的get方法名
-//     * @param sort
-//     */
-//    public void sortByChineseKeyword(List<E> list, final String method, final String sort) {
-//        Collections.sort(list, new Comparator<Object>() {
-//            Collator cmp = Collator.getInstance(java.util.Locale.CHINA);
-//
-//            public int compare(Object a, Object b) {
-//                int ret = 0;
-//                try {
-//                    Method m1 = ((E) a).getClass().getMethod(method, null);
-//                    Method m2 = ((E) b).getClass().getMethod(method, null);
-//
-//                    String v1 = m1.invoke(((E) a), null).toString();
-//                    String v2 = m2.invoke(((E) b), null).toString();
-//
-//                    if (sort != null && "desc".equals(sort)) {
-//                        // 倒序
-//                        ret = cmp.compare(v2, v1);
-//                    } else {
-//                        // 正序 {}
-//                        ret = cmp.compare(v1, v2);
-//                    }
-//                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ne) {
-//                    System.out.println(ne);
-//                }
-//                return ret;
-//            }
-//        });
+
+    /**
+     * 实体列表中，按中文关键字排序:根据指定的排序方式排序
+     *
+     * @param list
+     * @param method 属性的get方法名
+     * @param sort
+     */
+    public void sortByChineseKeyword(List<E> list, final String method, final String sort) {
+
+        Collections.sort(list, new Comparator<Object>() {
+            Collator cmp = Collator.getInstance(java.util.Locale.CHINA);
+
+            public int compare(Object a, Object b) {
+                int ret = 0;
+                try {
+                    Method m1 = ((E) a).getClass().getMethod(method, null);
+                    Method m2 = ((E) b).getClass().getMethod(method, null);
+
+                    String v1 = m1.invoke(((E) a), null).toString();
+                    String v2 = m2.invoke(((E) b), null).toString();
+
+                    if ("desc".equals(sort)) {
+                        // 倒序
+                        ret = cmp.compare(v2, v1);
+                    } else {
+                        // 正序 {}
+                        ret = cmp.compare(v1, v2);
+                    }
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ne) {
+                    System.out.println(ne);
+                }
+                return ret;
+            }
+        });
+
 //        ArrayList<Bank> dList = new ArrayList<Bank>();
 //        dList.add(new Bank("11", "啊商银行"));
 //        dList.add(new Bank("12", "上海农商银行"));
@@ -85,7 +96,8 @@ public class CollectUtil<E> {
 //        for (Bank b : dList) {
 //            System.out.println("code = " + b.getBankCode() + "，name = " + b.getBankName());
 //        }
-//    }
+    }
+
     /**
      * 纯文字列表的排序
      *
@@ -106,50 +118,116 @@ public class CollectUtil<E> {
 //        }
     }
 
-//    /**
-//     * 获得列表中，实体内某个中文属性的首文字字母：使用于通信录中，获得联系人字母导航。
-//     *
-//     * @param dList  实体列表
-//     * @param method 实体中获得属性值的get方法名
-//     * @return
-//     */
-//    public String[] getChineseUppercase(ArrayList<E> dList, String method) {
+    /**
+     * 获得列表中，实体内某个中文属性的首文字字母：使用于通信录中，获得联系人字母导航。
+     *
+     * @param dList  实体列表
+     * @param method 实体中获得属性值的get方法名
+     * @return
+     */
+    public String[] getChineseUppercase(ArrayList<E> dList, String method) {
+
+        String[] pinyinArray = new String[dList.size()];
+
+        for (int i = 0; i < dList.size(); i++) {
+            try {
+                Method m1 = ((E) dList.get(i)).getClass().getMethod(method, null);
+                String v1 = m1.invoke(((E) dList.get(i)), null).toString();
+
+                char word = v1.charAt(0);
+                HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+                format.setCaseType(HanyuPinyinCaseType.UPPERCASE);
+
+                String[] pinyin = PinyinHelper.toHanyuPinyinStringArray(word, format);
+
+                String firstPinYin = pinyin[0];
+                pinyinArray[i] = firstPinYin.charAt(0) + "";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return pinyinArray;
+//        // ================实体列表中，按中文关键字排序=================
+//        ArrayList<Bank> dList = new ArrayList<Bank>();
+//        dList.add(new Bank("11", "啊商银行"));
+//        dList.add(new Bank("08", "上海农商银行"));
+//        dList.add(new Bank("13", "波业银行"));
+//        dList.add(new Bank("04", "中国工商银行"));
 //
-//        String[] pinyinArray = new String[dList.size()];
+//        // 排序
+//        new OCollectUtil<Bank>().sortByChineseKeyword(dList, "getBankName");
 //
-//        for (int i = 0; i < dList.size(); i++) {
-//            try {
-//                Method m1 = ((E) dList.get(i)).getClass().getMethod(method, null);
-//                String v1 = m1.invoke(((E) dList.get(i)), null).toString();
+//        // 获得字母字符串数组
+//        String[] pinyins =  new OCollectUtil<Bank>().getChineseUppercase(dList, "getBankName");
 //
-//                char word = v1.charAt(0);
-//                HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
-//                format.setCaseType(HanyuPinyinCaseType.UPPERCASE);
-//
-//                String[] pinyin = PinyinHelper.toHanyuPinyinStringArray(word, format);
-//
-//                String firstPinYin = pinyin[0];
-//                pinyinArray[i] = firstPinYin.charAt(0) + "";
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+//        for (int i = 0; i < pinyins.length; i++) {
+//            Log.e("MainActivity", "uppercase = " + pinyins[i]);
 //        }
-//        return pinyinArray;
-////        // ================实体列表中，按中文关键字排序=================
-////        ArrayList<Bank> dList = new ArrayList<Bank>();
-////        dList.add(new Bank("11", "啊商银行"));
-////        dList.add(new Bank("08", "上海农商银行"));
-////        dList.add(new Bank("13", "波业银行"));
-////        dList.add(new Bank("04", "中国工商银行"));
-////
-////        // 排序
-////        new OCollectUtil<Bank>().sortByChineseKeyword(dList, "getBankName");
-////
-////        // 获得字母字符串数组
-////        String[] pinyins =  new OCollectUtil<Bank>().getChineseUppercase(dList, "getBankName");
-////
-////        for (int i = 0; i < pinyins.length; i++) {
-////            Log.e("MainActivity", "uppercase = " + pinyins[i]);
-////        }
-//    }
+    }
+
+    // 获取汉字的首字母大写
+    public static String sortChineseFirstSpell(String string) {
+
+        StringBuffer pybf = new StringBuffer();
+        char[] arr = string.toCharArray();
+        HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
+        defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > 128) { //如果已经是字母就不用转换了
+                try {
+                    //获取当前汉字的全拼
+                    String[] temp = PinyinHelper.toHanyuPinyinStringArray(
+                            arr[i], defaultFormat);
+                    if (temp != null) {
+                        pybf.append(temp[0].charAt(0));// 取首字母
+                    }
+                } catch (BadHanyuPinyinOutputFormatCombination e) {
+                    e.printStackTrace();
+                }
+            } else {
+                if (arr[i] >= 'a' && arr[i] <= 'z') {
+                    arr[i] -= 32;
+                }
+//                if (arr[0] >= 'A' && arr[0] <= 'Z') {// 将大写转换为小写
+//                    arr[0] += 32;
+//                }
+                pybf.append(arr[i]);
+            }
+        }
+        return pybf.toString();
+    }
+
+    // 获取汉字的首字母大写
+    public String getChineseCharSpell(char key) {
+        StringBuilder pybf = new StringBuilder();
+
+        HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
+        defaultFormat.setCaseType(HanyuPinyinCaseType.UPPERCASE);
+        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+
+        if (key > 128) { //如果已经是字母就不用转换了
+            try {
+                //获取当前汉字的全拼
+                String[] temp = PinyinHelper.toHanyuPinyinStringArray(
+                        key, defaultFormat);
+                if (temp != null) {
+                    pybf.append(temp[0].charAt(0));// 取首字母
+                }
+            } catch (BadHanyuPinyinOutputFormatCombination e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (key >= 'a' && key <= 'z') {
+                key -= 32;
+            }
+
+//                if (arr[0] >= 'A' && arr[0] <= 'Z') {// 将大写转换为小写
+//                    arr[0] += 32;
+//                }
+            pybf.append(key);
+        }
+        return pybf.toString();
+    }
 }

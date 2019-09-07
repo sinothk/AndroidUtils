@@ -294,12 +294,19 @@ public class XUtils {
     public static MapUtil map() {
         if (mapUtil == null) {
             synchronized (XUtils.class) {
-//                if (context == null) {
-//                    contextNullError();
-//                }
                 mapUtil = new MapUtil();
             }
         }
         return mapUtil;
+    }
+
+    private static CollectUtil collectUtil;
+    public static CollectUtil sets() {
+        if (collectUtil == null) {
+            synchronized (XUtils.class) {
+                collectUtil = new CollectUtil();
+            }
+        }
+        return collectUtil;
     }
 }
