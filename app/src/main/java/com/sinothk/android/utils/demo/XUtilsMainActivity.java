@@ -3,9 +3,7 @@ package com.sinothk.android.utils.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.sinothk.android.utils.CollectUtil;
 import com.sinothk.android.utils.XUtils;
-import com.sinothk.android.utils.bean.AppInfo;
 import com.sinothk.android.utils.bean.Bank;
 
 import java.util.ArrayList;
@@ -24,16 +22,6 @@ public class XUtilsMainActivity extends AppCompatActivity {
         dList.add(new Bank("13", "波业银行"));
         dList.add(new Bank("14", "中国工商银行"));
         dList.add(new Bank("11", "啊商银行"));
-
-
-        String key = XUtils.sets().getChineseCharSpell('白');
-        System.out.println("code = " + key);
-
-        String key2 = XUtils.sets().getChineseCharSpell('y');
-        System.out.println("code2 = " + key2);
-
-        String key3 = XUtils.sets().getChineseCharSpell('1');
-        System.out.println("code2 = " + key3);
 
 //        new CollectUtil<Bank>().sortByChineseKeyword(dList, "getBankName", CollectUtil.ASC);
 //        for (Bank b : dList) {

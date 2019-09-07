@@ -299,14 +299,4 @@ public class XUtils {
         }
         return mapUtil;
     }
-
-    private static CollectUtil collectUtil;
-    public static CollectUtil sets() {
-        if (collectUtil == null) {
-            synchronized (XUtils.class) {
-                collectUtil = new CollectUtil();
-            }
-        }
-        return collectUtil;
-    }
 }
