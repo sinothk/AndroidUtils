@@ -89,7 +89,7 @@ public class IntentUtil {
         }
 
         public void start() {
-            if (System.currentTimeMillis() - lasttime <= 0L)
+            if (System.currentTimeMillis() - lasttime <= 500L)
                 return;
 
             lasttime = System.currentTimeMillis();
@@ -122,7 +122,7 @@ public class IntentUtil {
 
         public void startInFragment(Fragment fragment) {
 
-            if (System.currentTimeMillis() - lasttime <= 0L)
+            if (System.currentTimeMillis() - lasttime <= 500L)
                 return;
 
             lasttime = System.currentTimeMillis();

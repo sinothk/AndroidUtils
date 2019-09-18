@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".XUtilsMainActivity">
 
-
-
+    <Button
+        android:id="@+id/nextPageBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="下一页" />
 </android.support.design.widget.CoordinatorLayout>

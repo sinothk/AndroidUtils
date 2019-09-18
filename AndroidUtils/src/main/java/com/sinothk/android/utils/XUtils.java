@@ -299,4 +299,15 @@ public class XUtils {
         }
         return mapUtil;
     }
+
+//    private static ImageUtil imageUtil;
+//    public static ImageUtil map() {
+//        if (mapUtil == null) {
+//            synchronized (XUtils.class) {
+//                mapUtil = new ImageUtil();
+//            }
+//        }
+//        return mapUtil;
+//    }
+
 }

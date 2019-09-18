@@ -2,13 +2,14 @@ package com.sinothk.android.utils.demo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
 import com.sinothk.android.utils.XUtils;
-import com.sinothk.android.utils.bean.Bank;
-
-import java.util.ArrayList;
 
 public class XUtilsMainActivity extends AppCompatActivity {
+
+    Button nextPageBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,11 +18,20 @@ public class XUtilsMainActivity extends AppCompatActivity {
 
         XUtils.init(getApplicationContext());
 
-        ArrayList<Bank> dList = new ArrayList<Bank>();
-        dList.add(new Bank("12", "上海农商银行"));
-        dList.add(new Bank("13", "波业银行"));
-        dList.add(new Bank("14", "中国工商银行"));
-        dList.add(new Bank("11", "啊商银行"));
+        nextPageBtn = findViewById(R.id.nextPageBtn);
+        nextPageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                XUtils.intent().openActivity(XUtilsMainActivity.this, Main2Activity.class).start();
+            }
+        });
+
+
+//        ArrayList<Bank> dList = new ArrayList<Bank>();
+//        dList.add(new Bank("12", "上海农商银行"));
+//        dList.add(new Bank("13", "波业银行"));
+//        dList.add(new Bank("14", "中国工商银行"));
+//        dList.add(new Bank("11", "啊商银行"));
 
 //        new CollectUtil<Bank>().sortByChineseKeyword(dList, "getBankName", CollectUtil.ASC);
 //        for (Bank b : dList) {
