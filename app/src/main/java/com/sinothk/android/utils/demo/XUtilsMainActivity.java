@@ -1,9 +1,9 @@
 package com.sinothk.android.utils.demo;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.sinothk.android.utils.XUtils;
 
@@ -18,13 +18,16 @@ public class XUtilsMainActivity extends AppCompatActivity {
 
         XUtils.init(getApplicationContext());
 
-        nextPageBtn = findViewById(R.id.nextPageBtn);
-        nextPageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                XUtils.intent().openActivity(XUtilsMainActivity.this, Main2Activity.class).start();
-            }
-        });
+        XUtils.statusBar(this).transparencyBar();
+
+
+//        nextPageBtn = findViewById(R.id.nextPageBtn);
+//        nextPageBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                XUtils.intent().openActivity(XUtilsMainActivity.this, Main2Activity.class).start();
+//            }
+//        });
 
 
 //        ArrayList<Bank> dList = new ArrayList<Bank>();

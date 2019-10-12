@@ -1,6 +1,7 @@
 package com.sinothk.android.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 
 /**
@@ -22,6 +23,22 @@ public class XUtils {
 
     private static void contextNullError() {
         throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context), 请在调用前初始化：init(context)");
+    }
+
+
+    /**
+     * 标题沉浸效果的设置
+     */
+    @SuppressLint("StaticFieldLeak")
+    private static StatusBarUtil statusBar;
+
+    public static StatusBarUtil statusBar(Activity currActivity) {
+        if (statusBar == null) {
+            synchronized (XUtils.class) {
+                statusBar = new StatusBarUtil(currActivity);
+            }
+        }
+        return statusBar;
     }
 
     /**
@@ -291,6 +308,7 @@ public class XUtils {
     }
 
     private static MapUtil mapUtil;
+
     public static MapUtil map() {
         if (mapUtil == null) {
             synchronized (XUtils.class) {

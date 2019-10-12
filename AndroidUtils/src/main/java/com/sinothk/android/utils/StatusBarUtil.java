@@ -21,8 +21,49 @@ import java.lang.reflect.Method;
  *  更新:
  * <pre>
  */
-@Deprecated
 public class StatusBarUtil {
+
+
+    Activity activity;
+
+    public StatusBarUtil(Activity currActivity) {
+        activity = currActivity;
+    }
+
+    /**
+     * 修改状态栏为全透明
+     *
+     */
+    @TargetApi(19)
+    public void transparencyBar() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = activity.getWindow();
+            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+        // 配合Theme
+//        <!-- Base application theme. -->
+//    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+//        <!-- Customize your theme here. -->
+//        <item name="colorPrimary">@color/colorPrimary</item>
+//        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+//        <item name="colorAccent">@color/colorAccent</item>
+//        <item name="windowActionBar">false</item>
+//        <item name="windowNoTitle">true</item>
+//        <item name="android:screenOrientation">portrait</item>
+//        <item name="android:windowSoftInputMode">stateHidden</item>
+//    </style>
+    }
 
     /**
      * 修改状态栏为全透明
@@ -57,6 +98,35 @@ public class StatusBarUtil {
 //        <item name="android:screenOrientation">portrait</item>
 //        <item name="android:windowSoftInputMode">stateHidden</item>
 //    </style>
+    }
+
+
+    /**
+     * 状态栏亮色模式，设置状态栏黑色文字、图标，
+     * 适配4.4以上版本MIUIV、Flyme和6.0以上版本其他Android
+     *
+     * @return 1:MIUUI 2:Flyme 3:android6.0
+     */
+    public int StatusBarLightMode() {
+
+        int result = 0;
+
+        if (MIUISetStatusBarLightMode(activity, true)) {
+            //小米
+            result = 1;
+        } else if (FlymeSetStatusBarLightMode(activity.getWindow(), true)) {
+            //魅族
+            result = 2;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //6.0以上
+            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            result = 3;
+        } else {
+            //其他的都设置状态栏成半透明的,以下设置半透明是调用第三方的，根据个人需求更改
+            //ImmersionBar.with(activity).statusBarDarkFont(true, 0.5f).init();
+        }
+
+        return result;
     }
 
     /**
@@ -131,6 +201,45 @@ public class StatusBarUtil {
      * @return boolean 成功执行返回true
      */
     public static boolean MIUISetStatusBarLightMode(Activity activity, boolean dark) {
+        boolean result = false;
+        Window window = activity.getWindow();
+        if (window != null) {
+            Class clazz = window.getClass();
+            try {
+                int darkModeFlag = 0;
+                Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+                Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
+                darkModeFlag = field.getInt(layoutParams);
+                Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
+                if (dark) {
+                    extraFlagField.invoke(window, darkModeFlag, darkModeFlag);//状态栏透明且黑色字体
+                } else {
+                    extraFlagField.invoke(window, 0, darkModeFlag);//清除黑色字体
+                }
+                result = true;
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    //开发版 7.7.13 及以后版本采用了系统API，旧方法无效但不会报错，所以两个方式都要加上
+                    if (dark) {
+                        activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                    } else {
+                        activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                    }
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 需要MIUIV6以上
+     *
+     * @param dark  是否把状态栏文字及图标颜色设置为深色
+     * @return boolean 成功执行返回true
+     */
+    public boolean MIUISetStatusBarLightMode(boolean dark) {
         boolean result = false;
         Window window = activity.getWindow();
         if (window != null) {

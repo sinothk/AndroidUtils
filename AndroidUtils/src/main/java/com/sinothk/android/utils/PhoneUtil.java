@@ -17,12 +17,14 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
 import android.view.WindowManager;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 
 import com.sinothk.android.utils.staticV.FileStaticUtil;
 import com.sinothk.android.utils.staticV.StringStaticUtil;
@@ -447,6 +449,7 @@ public class PhoneUtil {
     /**
      * 判断当前App处于前台还是后台状态
      */
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     public boolean isApplicationBackground() {
         if (context == null) {
             if (DEBUG) {
