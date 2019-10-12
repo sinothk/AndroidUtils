@@ -5,6 +5,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sinothk.android.utils.StatusBarUtil;
 import com.sinothk.android.utils.XUtils;
 
 public class XUtilsMainActivity extends AppCompatActivity {
@@ -16,10 +17,9 @@ public class XUtilsMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        XUtils.init(getApplicationContext());
-
-        XUtils.statusBar(this).transparencyBar();
-
+        StatusBarUtil.transparencyBar(this);
+//
+//
 
 //        nextPageBtn = findViewById(R.id.nextPageBtn);
 //        nextPageBtn.setOnClickListener(new View.OnClickListener() {

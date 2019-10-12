@@ -26,20 +26,20 @@ public class XUtils {
     }
 
 
-    /**
-     * 标题沉浸效果的设置
-     */
-    @SuppressLint("StaticFieldLeak")
-    private static StatusBarUtil statusBar;
-
-    public static StatusBarUtil statusBar(Activity currActivity) {
-        if (statusBar == null) {
-            synchronized (XUtils.class) {
-                statusBar = new StatusBarUtil(currActivity);
-            }
-        }
-        return statusBar;
-    }
+//    /**
+//     * 标题沉浸效果的设置
+//     */
+//    @SuppressLint("StaticFieldLeak")
+//    private static StatusBarUtil statusBar;
+//
+//    public static StatusBarUtil statusBar(Activity currActivity) {
+//        if (statusBar == null) {
+//            synchronized (XUtils.class) {
+//                statusBar = new StatusBarUtil(currActivity);
+//            }
+//        }
+//        return statusBar;
+//    }
 
     /**
      * 日志功能
