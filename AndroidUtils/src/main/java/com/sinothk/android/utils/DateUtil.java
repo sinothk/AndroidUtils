@@ -492,7 +492,7 @@ public class DateUtil {
      * @param year
      * @return
      */
-    public String getYear(int year) {
+    public String getChineseYear(int year) {
         if (year < 1900) {
             return "未知";
         }
