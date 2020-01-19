@@ -25,22 +25,6 @@ public class XUtils {
         throw new NullPointerException("mContext == null或参数为null, 请在调用前初始化：init(context), 请在调用前初始化：init(context)");
     }
 
-
-//    /**
-//     * 标题沉浸效果的设置
-//     */
-//    @SuppressLint("StaticFieldLeak")
-//    private static StatusBarUtil statusBar;
-//
-//    public static StatusBarUtil statusBar(Activity currActivity) {
-//        if (statusBar == null) {
-//            synchronized (XUtils.class) {
-//                statusBar = new StatusBarUtil(currActivity);
-//            }
-//        }
-//        return statusBar;
-//    }
-
     /**
      * 日志功能
      */
