@@ -57,10 +57,12 @@ public class UnitUtil {
      * @return
      */
     public String formatDistance(double value) {
-        if (value < 1000) {
+        if (value < 100) {
+            return "100米";
+        } else if (value < 1000) {
             return (int) value + "米";
         } else {
-            DecimalFormat df = new DecimalFormat("#0.00");
+            DecimalFormat df = new DecimalFormat("#0.0");
             return df.format(value / 1000.0) + "千米";
         }
     }

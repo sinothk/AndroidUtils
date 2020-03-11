@@ -1,6 +1,5 @@
 package com.sinothk.android.utils;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
@@ -14,6 +13,8 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -120,7 +121,7 @@ public class FileUtil {
 
     //**********************************File Choose Depart****************************************
     // 调用系统文件管理器
-    public static void chooseFile(Activity activity, int requestCode) {
+    public static void chooseFile(AppCompatActivity activity, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*").addCategory(Intent.CATEGORY_OPENABLE);
         try {
